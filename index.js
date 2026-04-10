@@ -57,12 +57,11 @@ function messageSendStatus() {
 }
 
 function sendButton(value) {
+  emailjs.init("R3fUbWALFNeRb6c88");
   const contactSend = document.querySelector(".contactSend");
 
-  contactSend.addEventListener("click", () => {
+  contactSend.addEventListener("click", async () => {
     let isInputFilled = true;
-    //inside forech or any iteration loop can't stop even after returning because it's in loop .
-
     document.querySelectorAll(".inputField").forEach((input) => {
       if (input.value === "") {
         isInputFilled = false;
@@ -79,9 +78,29 @@ function sendButton(value) {
       return;
     }
 
-    contactSend.textContent = "sent ✓";
+    const templateParams = {
+      name: document.getElementById("senderName").value,
+      email: document.getElementById("senderEmail").value,
+      message: document.getElementById("senderMessage").value,
+    };
 
-    toast("Message sent successfully.");
+    contactSend.textContent = "Sending...";
+    contactSend.disabled = true;
+
+    try {
+      await emailjs.send("service_li1jjhe", "template_16xbvnp", templateParams);
+      contactSend.textContent = "sent ✓";
+
+      toast("Message sent successfully.");
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      contactSend.textContent = "Send message";
+      contactSend.disabled = false;
+      toast("Message couldn't send, please try again.");
+      document.querySelectorAll(".inputField").forEach((input) => {
+        input.value = "";
+      });
+    }
   });
 }
 
