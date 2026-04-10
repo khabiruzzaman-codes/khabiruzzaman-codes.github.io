@@ -92,7 +92,7 @@ function sendButton(value) {
       contactSend.textContent = "sent ✓";
       toast("Message sent successfully.");
       document.querySelectorAll(".inputField").forEach((input) => {
-      input.value = "";
+      input.value = ""});
     } catch (error) {
       console.error("EmailJS error:", error);
       contactSend.textContent = "Send message";
