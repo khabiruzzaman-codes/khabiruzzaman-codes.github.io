@@ -90,8 +90,9 @@ function sendButton(value) {
     try {
       await emailjs.send("service_li1jjhe", "template_16xbvnp", templateParams);
       contactSend.textContent = "sent ✓";
-
       toast("Message sent successfully.");
+      document.querySelectorAll(".inputField").forEach((input) => {
+      input.value = "";
     } catch (error) {
       console.error("EmailJS error:", error);
       contactSend.textContent = "Send message";
